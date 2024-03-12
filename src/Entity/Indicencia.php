@@ -29,6 +29,11 @@ class Indicencia
     #[ORM\ManyToOne(inversedBy: 'incidencia')]
     private ?Cliente $cliente = null;
 
+
+    public function __construct(){
+        $this->fecha_creacion= new \DateTime();
+
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +98,5 @@ class Indicencia
 
         return $this;
     }
+
 }

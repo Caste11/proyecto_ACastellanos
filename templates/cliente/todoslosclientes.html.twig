@@ -1,0 +1,193 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Clientes{% endblock %}
+
+{% block body %}
+
+ {% if app.user %}
+            <div class="logged-in-message" class="mb-3">
+             {{ app.user.userIdentifier }} <a href="{{ path('app_logout') }}">Logout</a> <img class="foto" src="/imagenes/{{app.user.foto}}" />
+            </div>
+{% endif %}
+
+
+<h1>Lista de Clientes</h1>
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        
+        .foto {
+    display: block; /* Mostrar como bloque */
+    max-width: 100px; /* Ancho máximo igual al tamaño del contenedor */
+    height: auto; /* Altura automática para mantener la proporción */
+    border-radius: 50%; /* Borde redondeado para que la imagen sea circular */
+    border: 3px solid #fff; /* Borde blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+        /* Estilos para el contenedor del mensaje */
+        .logged-in-message {
+            margin-bottom: 10px; /* Espacio inferior */
+            padding: 10px; /* Espaciado interno */
+            background-color: #f8d7da; /* Color de fondo */
+            border: 1px solid #f5c6cb; /* Borde */
+            border-radius: 4px; /* Borde redondeado */
+            color: #721c24; /* Color del texto */
+        }
+
+        /* Estilos para el enlace de logout */
+        .logged-in-message a {
+            color: #721c24; /* Color del texto */
+            text-decoration: underline; /* Subrayado */
+            font-weight: bold; /* Texto en negrita */
+        }
+
+        /* Estilos para el enlace de logout al pasar el ratón */
+        .logged-in-message a:hover {
+            color: #721c24; /* Color del texto */
+            text-decoration: none; /* Quitar subrayado */
+        }
+       
+        body {
+            font-family: Arial, sans-serif; /* Familia de fuentes */
+            font-size: 16px; /* Tamaño de fuente base */
+            line-height: 1.6; /* Altura de línea */
+            color: #333; /* Color del texto */
+            background-color: #f8f9fa; /* Color de fondo */
+            margin: 0; /* Eliminar márgenes predeterminados */
+            padding: 0; /* Eliminar relleno predeterminado */
+        }
+        
+        /* Estilos para el encabezado h1 */
+        h1 {
+            font-size: 28px; /* Tamaño de fuente */
+            color: #333; /* Color del texto */
+            text-align: center; /* Alineación del texto */
+            margin-top: 20px; /* Espacio superior */
+            margin-bottom: 30px; /* Espacio inferior */
+        }
+
+        /* Estilos para el botón de añadir nuevo cliente */
+        .btn-success {
+            display: block; /* Mostrar como bloque para ocupar toda la anchura */
+            width: 200px; /* Ancho del botón */
+            margin: 0 auto 20px; /* Margen inferior y centrado horizontal */
+            text-align: center; /* Alineación del texto */
+            padding: 10px 20px; /* Espaciado interno */
+            font-size: 16px; /* Tamaño de fuente */
+            color: #fff; /* Color del texto */
+            background-color: #28a745; /* Color de fondo */
+            border: none; /* Quitar borde */
+            border-radius: 4px; /* Borde redondeado */
+            cursor: pointer; /* Cursor al pasar por encima */
+            text-decoration: none; /* Quitar subrayado de enlace */
+        }
+
+        .btn-success:hover {
+            background-color: #218838; /* Cambio de color al pasar el ratón */
+        }
+
+        /* Estilos para la tabla */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #fff; /* Color de fondo */
+            border-radius: 4px; /* Borde redondeado */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+        }
+
+        /* Estilos para el encabezado de la tabla */
+        .table th {
+            background-color: #007bff; /* Color de fondo */
+            color: #fff; /* Color del texto */
+            padding: 12px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+        }
+
+        /* Estilos para las celdas de la tabla */
+        .table td {
+            padding: 10px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+            border-bottom: 1px solid #dee2e6; /* Borde inferior */
+        }
+
+        /* Estilos para las filas impares */
+        .table tbody tr:nth-child(odd) {
+            background-color: #f8f9fa; /* Color de fondo */
+        }
+
+        /* Estilos para los botones de acción */
+        .btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none; /* Quitar línea del enlace */
+            display: inline-block; /* Mantener el enlace en línea */
+        }
+
+        /* Estilos para el botón de eliminar */
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        /* Estilos para el botón de ver incidencias */
+        .btn-ver-incidencias {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-ver-incidencias:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    </style>
+{% endblock %}
+
+
+<!-- Botón para añadir un nuevo cliente -->
+<a href="{{ path('nuevoCliente') }}" class="btn btn-success">Añadir Nuevo Cliente</a>
+
+
+
+<a href="{{ path('todaslasincidencias') }}" class="btn btn-success">Listas Todas Las Incidencias</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th colspan="2">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.apellido }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.direccion }}</td>
+                <td>
+                    <a href="{{ path('eliminarCliente', {'id': cliente.id}) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</a>
+                </td>
+
+                <td>
+                    <a href="{{ path('verIncidenciasCliente', {'id': cliente.id}) }}" class="btn btn-danger" >Ver Incidencias</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

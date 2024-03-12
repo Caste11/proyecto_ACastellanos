@@ -1,0 +1,14 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Incidencia{% endblock %}
+
+{% block body %}
+    <h1>Editar Incidencia</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.titulo) }}
+    {{ form_row(form.estado) }}
+    {{ form_end(form) }}
+{% endblock %}

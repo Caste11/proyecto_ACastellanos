@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Incidencias{% endblock %}
+
+{% block body %}
+<h1>Lista de Incidencias</h1>
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Estilos para la tabla */
+        
+         body {
+            font-family: Arial, sans-serif; /* Familia de fuente */
+            font-size: 16px; /* Tamaño de fuente */
+            line-height: 1.6; /* Altura de línea */
+            color: #333; /* Color del texto */
+            background-color: #f8f9fa; /* Color de fondo */
+            margin: 0; /* Eliminar márgenes predeterminados */
+            padding: 0; /* Eliminar relleno predeterminado */
+        }
+         
+         h1 {
+            font-size: 28px; /* Tamaño de fuente */
+            color: #333; /* Color del texto */
+            text-align: center; /* Alineación del texto */
+            margin-top: 20px; /* Espacio superior */
+            margin-bottom: 30px; /* Espacio inferior */
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        /* Estilos para las celdas de la tabla */
+        .table th,
+        .table td {
+            padding: 8px 12px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* Estilos para el encabezado de la tabla */
+        .table th {
+            background-color: #007bff;
+            color: #ffffff;
+            border-color: #007bff;
+            text-align: center; /* Centrado del th */
+            vertical-align: middle;
+        }
+
+        /* Estilos para las filas impares */
+        .table tbody tr:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+
+        /* Estilos para los botones de acción */
+        .btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none; /* Quitar línea del enlace */
+            display: inline-block; /* Mantener el enlace en línea */
+        }
+
+        /* Estilos para el botón de eliminar */
+        .btn-danger {
+            color: #ffffff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        /* Estilos para el botón de editar */
+        .btn-primary {
+            color: #ffffff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    </style>
+{% endblock %}
+
+
+<table class="table">
+    <thead>
+
+    <a href="{{ path('nuevaIncidencia') }}" class="btn btn-success">Añadir una Incidencia</a>
+        <tr>
+            <th>Id</th>
+            <th>Titulo</th>
+            <th>Fecha_Creación</th>
+            <th>Estado</th>
+            <th colspan="2">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for incidencia in incidencias %}
+            <tr>
+                <td>{{ incidencia.id }}</td>
+                <td>{{ incidencia.titulo }}</td>
+                <td>{{ incidencia.fechaCreacion|date('Y-m-d') }}</td>
+                <td>{{ incidencia.estado }}</td>
+               
+               <td>
+                    <a href="{{ path('eliminarIncidencia', {'id': incidencia.id}) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta Incidencia?');">Eliminar</a>
+                </td>
+                <td>
+                    <a href="{{ path('editarIncidencia', {'id': incidencia.id}) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas editar esta Incidencia?');">Modificar Incidencia</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

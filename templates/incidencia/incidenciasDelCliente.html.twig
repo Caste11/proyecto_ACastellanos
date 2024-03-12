@@ -1,0 +1,86 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Incidencias del Cliente{{ clienteId }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+       
+       
+       
+        /* Estilos para el encabezado h1 */
+        h1 {
+            font-size: 24px; /* Tamaño de fuente */
+            color: #333; /* Color del texto */
+            text-align: center; /* Alineación del texto */
+            margin-top: 20px; /* Espacio superior */
+            margin-bottom: 30px; /* Espacio inferior */
+        }
+
+        /* Estilos para la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #fff; /* Color de fondo */
+            border: 1px solid #ccc; /* Borde */
+            border-radius: 4px; /* Borde redondeado */
+        }
+
+        /* Estilos para el encabezado de la tabla */
+        th {
+            background-color: #007bff; /* Color de fondo */
+            color: #fff; /* Color del texto */
+            padding: 12px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+        }
+
+        /* Estilos para las celdas de la tabla */
+        td {
+            padding: 10px; /* Espaciado interno */
+            text-align: left; /* Alineación del texto */
+            border-bottom: 1px solid #dee2e6; /* Borde inferior */
+        }
+
+        /* Estilos para las filas impares */
+        tbody tr:nth-child(odd) {
+            background-color: #f8f9fa; /* Color de fondo */
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <h1>Incidencias del Cliente {{ clienteId }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Fecha de Creación</th>
+                <th>Estado</th>
+                <th colspan="2">Operaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for incidencia in incidencias %}
+                <tr>
+                    <td>{{ incidencia.id }}</td>
+                    <td>{{ incidencia.titulo }}</td>
+                    <td>{{ incidencia.fechaCreacion|date('Y-m-d') }}</td>
+                    <td>{{ incidencia.estado }}</td>
+
+                    <td>
+                    <a href="{{ path('eliminarIncidenciaCliente', {'id': incidencia.id}) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta Incidencia?');">Eliminar</a>
+                </td>
+                <td>
+                    <a href="{{ path('editarIncidenciaCliente', {'id': incidencia.id}) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas editar esta Incidencia?');">Modificar Incidencia</a>
+                </td>
+                </tr>
+            {% endfor %}
+
+            <a href="{{ path('nuevaIncidenciaCliente',{'id': clienteId} ) }}" class="btn btn-success">Insertar Incidencia del Cliente</a>
+        </tbody>
+    </table>
+{% endblock %}

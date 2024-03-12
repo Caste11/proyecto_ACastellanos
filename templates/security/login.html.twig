@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Página de Inicio de Sesión{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Estilos generales */
+        
+        body {
+            font-family: Arial, sans-serif; /* Familia de fuentes predeterminada */
+            background-color: #f4f4f4; /* Color de fondo */
+            color: #333; /* Color del texto principal */
+            margin: 0; /* Eliminar márgenes predeterminados */
+            padding: 0; /* Eliminar relleno predeterminado */
+        }
+        
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para los mensajes de error */
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        /* Estilos para los enlaces */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para los botones */
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para los campos de entrada */
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Estilos para el texto del formulario */
+        .form-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Estilos para el enlace de registro */
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+         /* Estilos para el contenedor del mensaje */
+        .logged-in-message {
+            margin-bottom: 10px; /* Espacio inferior */
+            padding: 10px; /* Espaciado interno */
+            background-color: #e2f3f5; /* Color de fondo */
+            border: 1px solid #bce8f1; /* Borde */
+            border-radius: 4px; /* Borde redondeado */
+            color: #31708f; /* Color del texto */
+            text-align: center; /* Alineación del texto */
+            font-weight: bold; /* Texto en negrita */
+        }
+
+        /* Estilos para el enlace de logout */
+        .logged-in-message a {
+            color: #31708f; /* Color del texto */
+            text-decoration: none; /* Quitar subrayado */
+            margin-left: 5px; /* Espacio a la izquierda */
+        }
+
+        /* Estilos para el enlace de logout al pasar el ratón */
+        .logged-in-message a:hover {
+            text-decoration: underline; /* Subrayado */
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+         {% if app.user %}
+            <div class="logged-in-message" class="mb-3">
+                Estas ya perfectamente logueado {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 class="h3 mb-3 font-weight-normal">Inicia Sesíon</h1>
+        <label for="username">Email</label>
+        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+        <label for="password">Password</label>
+        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+
+        <input type="hidden" name="_target_path" value="/cliente/todoslosclientes">
+
+        <button class="btn btn-lg btn-primary" type="submit">
+            Iniciar Sesión
+        </button>
+
+    <p class="mt-3 mb-0 text-center">¿Aún no estás registrado? <a href="{{ path('registrarUsuario') }}">Regístrate aquí</a></p>
+
+    </form>
+{% endblock %}
